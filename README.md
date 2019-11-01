@@ -1,4 +1,4 @@
-WebFileExplorer s
+WebFileExplorer
 
 
 Инструментарий:
