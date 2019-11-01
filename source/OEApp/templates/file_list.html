@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h2 style="color:#b320c9"><b>File Storage</b></h2>
+
+<p>
+	<td><a href="{% url 'file_upload' %}" class = "btn btn-primary">New file</a></td>
+	<td><a href="{% url 'folder_create' %}" class = "btn btn-primary">New folder</a></td>
+</p>
+
+<table class="table mb-0">
+	<tbody>
+		{% for file in files %}
+			<tr>
+				<td>{{ file.path }}</td>
+				<td>
+					<a href="{{ file.path.url }}" class = "btn btn-link btn-sm" target = "_blank">Download</a>
+				</td>
+				<td>
+					<form method="post" action = "{% url 'file_remove' file.pk %}">
+						{% csrf_token %}
+						<button type = "submit" class = "btn btn-danger">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+		{% for folder in folders %}
+			<tr>
+				<td>
+					<b>(folder)</b> {{ folder.name }}
+				</td>
+				<td></td>
+				<td>
+					<form method="post" action = "{% url 'folder_remove' folder.pk %}">
+						{% csrf_token %}
+						<button type = "submit" class = "btn btn-danger">Delete</button>
+					</form>
+				</td>
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,112 @@
+// UML.cpp: определ€ет точку входа дл€ консольного приложени€.
+//
+
+#include "stdafx.h"
+#include <iostream>
+#include <sstream>
+#include <string>
+
+using namespace std;
+class InterfaceObject{
+public:
+	InterfaceObject(){};
+	~InterfaceObject(){};
+	virtual string getName() = 0;
+	virtual void changeName() = 0;
+	virtual void move(float x, float y, float z) = 0;
+	virtual void scale(float percent) = 0;
+};
+class InterfaceSurface{
+public:
+	InterfaceSurface(){};
+	~InterfaceSurface(){};
+	virtual string getName() = 0;
+	virtual void changeName() = 0;
+};
+class Light : public InterfaceObject{
+	string name, shape, color;
+	int idPos;
+	float size, intensive, Xpos, yPos, zPos;
+public:
+	Light(){}
+	~Light(){}
+	void options(string chN = " ", string chCo = " ", string chSh = " ", float chIn = -1){}
+
+	string getName(){};
+	void changeName(){};
+	void move(float x, float y, float z){};
+	void scale(float percent){};
+};
+class Texture : public InterfaceSurface{
+	string pathToTexture;
+public:
+	Texture(){}
+	~Texture(){}
+
+	string getName(){ return pathToTexture; };
+	void changeName(){};
+};
+class Material : public InterfaceSurface{
+	string name, color;
+	int idPos;
+	float diffuse;
+	Texture usingTexture;
+public:
+	Material(){}
+	~Material(){}
+	void options(string chCo, float chDi){}
+	void setTexture(Texture sT){}
+	void setAlpha(Texture sA){}
+
+	string getName(){ return name; }
+	void changeName(){}
+};
+
+class Model : public InterfaceObject{
+	string name, primitive;
+	int idPos, polygonsQuantity;
+	float size, xPos, yPos, zPos;
+	Material usingMaterial;
+public:
+	Model(){}
+	~Model(){}
+	void options(string chN = " ", string chPr = " ", int chPQ = -1){}
+	void setMaterial(Material setMtl){};
+
+	string getName(){ return name; }
+	void changeName(){}
+	void move(float x, float y, float z){}
+	void scale(float percent){}
+};
+class Scene {
+	string name;
+	int modelsQuantity;
+	Model sceneModels[100]; //—цена может иметь <= 100 моделей
+	Light sceneLights[100]; //и  <= 100 источников света
+public:
+	Scene(){};
+	~Scene(){};
+	void addObject(Light addLight, Model addMdl){}
+	void removeObject(Light addLight, Model addMdl){}
+	void changeObject(int mdlIndex = -1, int lgtIndex = -1){
+		switch (mdlIndex){
+			case -1: cout << "Model wasn't selected" << endl; break;
+			default:
+				if (mdlIndex >= 0 && mdlIndex < 100)
+					sceneModels[mdlIndex].options();
+				else cout << "Error: wrong index of Model" << endl;
+		}
+		switch (lgtIndex){
+			case -1: cout << "Light wasn't selected" << endl; break;
+			default:
+				if (lgtIndex >= 0 && lgtIndex < 100)
+					sceneLights[lgtIndex].options();
+				else cout << "Error: wrong index of Light" << endl;
+		}
+	}
+};
+int _tmain(int argc, _TCHAR* argv[])
+{
+	return 0;
+}
+
